@@ -26,19 +26,19 @@ export default defineComponent({
           <TwitterIcon />
           <div class="mt-2">
             <nav>
-              <RouterLink class="flex justify-start items-center" :to="'/'">
+              <RouterLink class="my-4 flex justify-start items-center" :to="'/'">
                 <HomeIcon />
                 <span class="ml-4 text-2xl">Home</span>
               </RouterLink>
-              <div class="flex justify-start items-center">
+              <div class="my-4 flex justify-start items-center">
                 <SearchIcon />
                 <span class="ml-4 text-2xl">Search</span>
               </div>
-              <div class="flex justify-start items-center">
+              <div class="my-4 flex justify-start items-center">
                 <BellIcon />
                 <span class="ml-4 text-2xl">Notifications</span>
               </div>
-              <div class="flex justify-start items-center">
+              <div class="my-4 flex justify-start items-center">
                 <ProfileIcon />
                 <span class="ml-4 text-2xl">Profile</span>
               </div>
@@ -64,7 +64,7 @@ export default defineComponent({
       </div>
     </div>
     <div class="col-span-8">
-      <div class="w-3/4 mx-auto bg-green-500 p-4 border-1 border-x-gray-200">
+      <div class="w-3/4 mx-auto p-4 border-1 border-x-gray-200">
         <slot></slot>
       </div>
     </div>
