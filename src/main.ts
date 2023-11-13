@@ -3,6 +3,7 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import 'element-plus/dist/index.css'
 
@@ -26,7 +27,10 @@ library.add(faUserSecret)
 const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)
 
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+
+app.use(pinia)
 app.use(router)
 app.use(ElementPlus)
 
