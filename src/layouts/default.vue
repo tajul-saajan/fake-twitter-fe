@@ -5,10 +5,19 @@ import SearchIcon from '@/components/icons/Search.vue'
 import BellIcon from '@/components/icons/Bell.vue'
 import ProfileIcon from '@/components/icons/Profile.vue'
 import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 
 const showOverlay = ref(false)
 const toggleMenu = function () {
   showOverlay.value = !showOverlay.value
+}
+
+const authStore = useAuthStore()
+const router = useRouter()
+const logout = async function () {
+  authStore.logOut()
+  await router.push('/login')
 }
 </script>
 
@@ -18,7 +27,7 @@ const toggleMenu = function () {
     <div class="col-span-2 flex flex-col h-100vh">
       <div class="w-full mr-auto p-4">
         <div class="flex flex-col justify-center items-start mb-4">
-          <TwitterIcon />
+          <TwitterIcon class="h-8 mt-2" />
           <div class="mt-2">
             <nav>
               <RouterLink class="my-4 flex justify-start items-center" :to="'/'">
@@ -70,8 +79,8 @@ const toggleMenu = function () {
                 >
               </li>
               <li>
-                <RouterLink to="login" class="block px-4 py-2 hover:bg-gray-600 hover:rounded"
-                  >Logout</RouterLink
+                <span @click="logout" class="block px-4 py-2 hover:bg-gray-600 hover:rounded"
+                  >Logout</span
                 >
               </li>
             </ul>

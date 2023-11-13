@@ -1,5 +1,39 @@
 <script setup lang="ts">
 import TwitterIcon from '@/components/icons/Twitter.vue'
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+interface loginData {
+  email: string
+  password: string
+}
+const formData = ref({} as LoginData)
+const rules = {
+  email: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'email is required'
+    }
+  ],
+  password: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'password is required'
+    }
+  ]
+}
+
+const authStore = useAuthStore()
+const router = useRouter()
+
+const submitForm = async function () {
+  const response = await authStore.login(formData.value.email, formData.value.password)
+  if (response) {
+    await router.push('/')
+  }
+}
 </script>
 <template>
   <div class="h-screen flex items-center lg:justify-start">
@@ -20,28 +54,30 @@ import TwitterIcon from '@/components/icons/Twitter.vue'
       <p class="mt-4 item-start font-bold lg:text-4xl text-2xl mb-6 px-8">Join today.</p>
 
       <!-- Login Form -->
-      <form class="lg:w-1/2 w-full p-8 rounded-2xl">
+      <el-form
+        :rules="rules"
+        :model="formData"
+        @submit.prevent="submitForm"
+        class="lg:w-1/2 w-full p-8 rounded-2xl"
+      >
         <!-- Email Input -->
-        <div class="mb-4">
+        <el-form-item class="mb-8" prop="email">
           <label for="email" class="block text-sm font-medium">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            class="mt-1 p-2 w-full rounded-2xl bg-gray-700 text-white"
+          <el-input
+            v-model="formData.email"
+            class="mt-1 w-full rounded-2xl bg-[#16181C] text-white"
           />
-        </div>
+        </el-form-item>
 
         <!-- Password Input -->
-        <div class="mb-6">
+        <el-form-item prop="password" class="mb-8">
           <label for="password" class="block text-sm font-medium">Password</label>
-          <input
+          <el-input
+            v-model="formData.password"
             type="password"
-            id="password"
-            name="password"
-            class="mt-1 p-2 w-full rounded-2xl bg-gray-700 text-white"
+            class="mt-1 w-full rounded-2xl bg-[#16181C] text-white"
           />
-        </div>
+        </el-form-item>
 
         <!-- Sign In Button -->
         <button
@@ -50,7 +86,7 @@ import TwitterIcon from '@/components/icons/Twitter.vue'
         >
           Sign In
         </button>
-      </form>
+      </el-form>
 
       <!-- "Join today" text -->
     </div>

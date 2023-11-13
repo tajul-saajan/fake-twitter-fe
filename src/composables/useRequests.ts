@@ -1,8 +1,9 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import axios from 'axios'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 
-const baseUrl = process.env.BASE_URL
+// const baseUrl = import.meta.env.BASE_URL
+const baseUrl = 'http://localhost:8000/api'
 
 const generateUrl = (endpoint: string) => {
   return `${baseUrl}/${endpoint}`
@@ -14,19 +15,20 @@ export default () => ({
     auth: boolean = true,
     headers: {} = {}
   ) {
-    return await handleRequest<Type>('GET', generateUrl(endPoint), { query }, auth, headers)
+    return await handleRequest<Type>('GET', generateUrl(endPoint), auth, {}, query, headers)
   },
 
   post: async function <Type>(endPoint: string, body: {}, auth: boolean = true, headers: {} = {}) {
-    return await handleRequest<Type>('POST', generateUrl(endPoint), { body }, auth, headers)
+    return await handleRequest<Type>('POST', generateUrl(endPoint), auth, body, {}, headers)
   }
 })
 
 async function handleRequest<Type>(
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
   endPoint: string,
-  params: {},
   auth: boolean,
+  data: {},
+  params: {},
   headers: {} = {}
 ) {
   // headers['Content-Type'] = 'application/json'
@@ -39,18 +41,19 @@ async function handleRequest<Type>(
     headers = { ...headers, Authorization: `Bearer ${useAuthStore().token}`, params: 'include' }
   }
 
-  let response: AxiosResponse<Type>,
-    error: AxiosError | null = null
+  let response,
+    error: any | null = null
 
   try {
-    response = await axios.request({
+    response = await axios.request<Type>({
       url: endPoint,
       method,
       headers,
-      ...params
+      params,
+      data
     })
   } catch (e) {
-    error = e as unknown as AxiosError
+    error = e
   }
   return { response, error }
 }
