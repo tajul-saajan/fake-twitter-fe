@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Profile from '@/views/Profile.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +25,26 @@ const router = createRouter({
       component: Profile
     }
   ]
+})
+
+const privateRoutes = ['profile', 'home']
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  if (privateRoutes.includes(to.name)) {
+    if (!authStore.isAuthenticated) {
+      next(`/login`)
+    }
+  }
+
+  // redirect to home page if user is already logged in
+  if (to.name === 'login') {
+    if (authStore.isAuthenticated) {
+      next('/')
+    }
+  }
+
+  next()
 })
 
 export default router
