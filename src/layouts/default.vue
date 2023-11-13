@@ -1,21 +1,15 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import HomeIcon from '@/components/icons/Home.vue'
 import TwitterIcon from '@/components/icons/Twitter.vue'
 import SearchIcon from '@/components/icons/Search.vue'
 import BellIcon from '@/components/icons/Bell.vue'
 import ProfileIcon from '@/components/icons/Profile.vue'
-import { Search } from '@element-plus/icons-vue'
+import { ref } from 'vue'
 
-export default defineComponent({
-  name: 'default-layout',
-  computed: {
-    Search() {
-      return Search
-    }
-  },
-  components: { ProfileIcon, BellIcon, Search, SearchIcon, TwitterIcon, HomeIcon }
-})
+const showOverlay = ref(false)
+const toggleMenu = function () {
+  showOverlay.value = !showOverlay.value
+}
 </script>
 
 <template>
@@ -51,7 +45,7 @@ export default defineComponent({
         </div>
       </div>
       <div class="flex-grow"></div>
-      <div class="flex items-center mb-4 ml-2">
+      <div class="relative flex items-center mb-4 ml-2">
         <div
           class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl"
         >
@@ -61,7 +55,28 @@ export default defineComponent({
           <div>Tajul Islam</div>
           <div class="text-lg font-light text-gray-400">@tajul_islam</div>
         </div>
-        <div class="font-extrabold cursor-pointer">...</div>
+        <div class="font-extrabold cursor-pointer" @click="toggleMenu">...</div>
+        <!-- Overlay -->
+        <div
+          v-if="showOverlay"
+          class="absolute top-0 right-0 h-full flex justify-center items-center mr-8"
+        >
+          <!-- Menu -->
+          <div class="bg-gray-900 rounded shadow-lg">
+            <ul>
+              <li>
+                <RouterLink :to="'/profile'" class="block px-4 py-2 hover:bg-gray-600 hover:rounded"
+                  >Profile</RouterLink
+                >
+              </li>
+              <li>
+                <RouterLink to="login" class="block px-4 py-2 hover:bg-gray-600 hover:rounded"
+                  >Logout</RouterLink
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
     <!--  left aside menu end -->

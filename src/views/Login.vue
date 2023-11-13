@@ -2,11 +2,11 @@
 import TwitterIcon from '@/components/icons/Twitter.vue'
 </script>
 <template>
-  <div class="bg-black text-white h-screen flex items-center lg:justify-start">
+  <div class="h-screen flex items-center lg:justify-start">
     <!-- Left half with logo -->
-    <div class="flex items-center justify-center">
+    <div class="w-1/2 flex items-center justify-center">
       <!--      <img src="twitter-x-seeklogo.com-4.svg" alt="Logo" class="invisible lg:visible" />-->
-      <TwitterIcon class="h-screen w-1/2" />
+      <TwitterIcon class="w-1/2" />
     </div>
 
     <!-- Right half with title and login form -->

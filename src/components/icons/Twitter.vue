@@ -11,7 +11,7 @@ export default defineComponent({
     viewBox="0 0 24 24"
     aria-hidden="true"
     fill="white"
-    class="text-white h-8 w-8 r-1nao33i r-4qtqp9 r-yyyyoo r-16y2uox r-8kz0gk r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp"
+    class="text-white r-1nao33i r-4qtqp9 r-yyyyoo r-16y2uox r-8kz0gk r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp"
   >
     <g>
       <path
