@@ -20,6 +20,7 @@ export default defineComponent({
 
 <template>
   <div class="grid grid-cols-12 gap-0 bg-black text-white h-screen">
+    <!--  left aside menu start -->
     <div class="col-span-2 flex flex-col h-100vh">
       <div class="w-full mr-auto p-4">
         <div class="flex flex-col justify-center items-start mb-4">
@@ -38,10 +39,10 @@ export default defineComponent({
                 <BellIcon />
                 <span class="ml-4 text-2xl">Notifications</span>
               </div>
-              <div class="my-4 flex justify-start items-center">
+              <RouterLink class="my-4 flex justify-start items-center" :to="'/profile'">
                 <ProfileIcon />
                 <span class="ml-4 text-2xl">Profile</span>
-              </div>
+              </RouterLink>
             </nav>
           </div>
         </div>
@@ -63,11 +64,17 @@ export default defineComponent({
         <div class="font-extrabold cursor-pointer">...</div>
       </div>
     </div>
-    <div class="col-span-8">
+    <!--  left aside menu end -->
+
+    <!--  main content start -->
+    <div class="col-span-8 overflow-auto hide-scrollbar">
       <div class="w-3/4 mx-auto p-4 border-1 border-x-gray-200">
         <slot></slot>
       </div>
     </div>
+    <!--  main content end -->
+
+    <!--  right bar start -->
     <div class="col-span-2">
       <div class="mr-auto p-4 h-screen w-full">
         <div class="flex flex-col">
@@ -118,7 +125,19 @@ export default defineComponent({
         </div>
       </div>
     </div>
+    <!--  right bar end -->
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+</style>
