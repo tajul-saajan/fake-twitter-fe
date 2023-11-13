@@ -9,16 +9,11 @@ const generateUrl = (endpoint: string) => {
   return `${baseUrl}/${endpoint}`
 }
 export default () => ({
-  get: async function <Type>(
-    endPoint: string,
-    query: {} = {},
-    auth: boolean = true,
-    headers: {} = {}
-  ) {
+  get: async function <Type>(endPoint: string, query: {} = {}, auth = true, headers: {} = {}) {
     return await handleRequest<Type>('GET', generateUrl(endPoint), auth, {}, query, headers)
   },
 
-  post: async function <Type>(endPoint: string, body: {}, auth: boolean = true, headers: {} = {}) {
+  post: async function <Type>(endPoint: string, body: {}, auth = true, headers: {} = {}) {
     return await handleRequest<Type>('POST', generateUrl(endPoint), auth, body, {}, headers)
   }
 })
@@ -38,7 +33,12 @@ async function handleRequest<Type>(
     if (!useAuthStore().isAuthenticated) {
       await useRouter().push('/login')
     }
-    headers = { ...headers, Authorization: `Bearer ${useAuthStore().token}`, params: 'include' }
+
+    headers = {
+      ...headers,
+      Authorization: `Bearer ${useAuthStore().tokenData?.access_token}`,
+      params: 'include'
+    }
   }
 
   let response,

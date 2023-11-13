@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import DefaultLayout from '@/layouts/default.vue'
 import Tweet from '@/components/Tweet.vue'
+import { useTweetStore } from '@/stores/tweetStore'
 
 const activeName = ref('first')
+const tweetStore = useTweetStore()
+const tweets = ref([] as any)
+const paginationData = ref({} as any)
+
+onMounted(async () => {
+  const { data, ...pag } = await tweetStore.getTimelineData()
+  console.log(tweets.value)
+  tweets.value = data
+  paginationData.value = pag
+})
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
@@ -41,9 +52,11 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
           </div>
 
           <!--  tweet data. @todo replace with real data  -->
-          <Tweet />
-          <Tweet />
-          <Tweet />
+          <!--          <Tweet />-->
+          <!--          <Tweet />-->
+          <div v-if="tweets.length > 0">
+            <Tweet v-for="t in tweets" :key="t.id" :tweet="t" />
+          </div>
         </el-tab-pane>
 
         <el-tab-pane label="Following" name="second">Following</el-tab-pane>

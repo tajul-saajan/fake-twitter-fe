@@ -1,5 +1,13 @@
 <script lang="ts" setup>
 import { ChatDotRound, Histogram, Promotion, RefreshRight } from '@element-plus/icons-vue'
+import type { PropType } from 'vue'
+import type { Tweet } from '@/types/tweet'
+const props = defineProps({
+  tweet: {
+    type: Object as PropType<Tweet>,
+    required: true
+  }
+})
 </script>
 
 <template>
@@ -13,15 +21,11 @@ import { ChatDotRound, Histogram, Promotion, RefreshRight } from '@element-plus/
     </div>
     <div class="w-10/12 flex flex-col">
       <div class="flex">
-        <div class="text-lg font-semibold">Full Name</div>
-        <div class="ml-2 font-light text-gray-400">@username</div>
+        <div class="text-lg font-semibold">{{ props.tweet.created_by.user_name }}</div>
+        <div class="ml-2 font-light text-gray-400">@{{ props.tweet.created_by.user_name }}</div>
         <div class="ml-2 font-light text-gray-400">. 12h</div>
       </div>
-      <pre>
-loreddfklfdkldffm
-gkjsfgdnbdfuij
-            </pre
-      >
+      <div class="py-1">{{ props.tweet.content }}</div>
       <div class="flex justify-around items-center">
         <div>
           <el-icon><ChatDotRound /></el-icon>

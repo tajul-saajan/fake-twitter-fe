@@ -5,7 +5,9 @@ import type { TokenData } from '@/types/tokenData'
 
 interface LoginData {
   user: User
-  tokenData: TokenData
+  access_token: string
+  token_type: string
+  expires_in: number
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -18,7 +20,7 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     user: (state) => state._user,
     isAuthenticated: (state) => state._isAuthenticated,
-    token: (state) => state._tokenData
+    tokenData: (state) => state._tokenData
   },
   actions: {
     async login(email: string, password: string) {
@@ -30,9 +32,9 @@ export const useAuthStore = defineStore('auth', {
       if (error) {
         //handle error data
       }
-      const loginData = response?.data
+      const { user, ...tokenData } = response?.data
       // @ts-ignore
-      this.setAuth(loginData?.user, loginData?.tokenData)
+      this.setAuth(user, tokenData)
       return response?.data
     },
     logOut() {
