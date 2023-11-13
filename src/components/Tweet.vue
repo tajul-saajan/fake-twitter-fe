@@ -2,12 +2,15 @@
 import { ChatDotRound, Histogram, Promotion, RefreshRight } from '@element-plus/icons-vue'
 import type { PropType } from 'vue'
 import type { Tweet } from '@/types/tweet'
+import useDateHelper from '@/composables/useDateHelper'
 const props = defineProps({
   tweet: {
     type: Object as PropType<Tweet>,
     required: true
   }
 })
+
+const { formatTimeDiffForHumans } = useDateHelper()
 </script>
 
 <template>
@@ -23,7 +26,9 @@ const props = defineProps({
       <div class="flex">
         <div class="text-lg font-semibold">{{ props.tweet.created_by.user_name }}</div>
         <div class="ml-2 font-light text-gray-400">@{{ props.tweet.created_by.user_name }}</div>
-        <div class="ml-2 font-light text-gray-400">. 12h</div>
+        <div class="ml-2 font-light text-gray-400">
+          . {{ formatTimeDiffForHumans(props.tweet.created_at) }}
+        </div>
       </div>
       <div class="py-1">{{ props.tweet.content }}</div>
       <div class="flex justify-around items-center">
