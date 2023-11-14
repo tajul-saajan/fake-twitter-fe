@@ -7,17 +7,39 @@ import ProfileIcon from '@/components/icons/Profile.vue'
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
+import { ElNotification } from 'element-plus'
 
 const showOverlay = ref(false)
 const toggleMenu = function () {
   showOverlay.value = !showOverlay.value
 }
 
+const searchKey = ref()
+
 const authStore = useAuthStore()
+const userStore = useUserStore()
 const router = useRouter()
 const logout = async function () {
   authStore.logOut()
   await router.push('/login')
+}
+
+const searchUser = async function () {
+  const response = await userStore.searchUser(searchKey.value)
+  if (response.id) {
+    ElNotification({
+      type: 'success',
+      title: 'Found',
+      message: `user found with id ${response.id}`
+    })
+    return
+  }
+  ElNotification({
+    type: 'error',
+    title: 'Not Found',
+    message: `user not found`
+  })
 }
 </script>
 
@@ -109,7 +131,9 @@ const logout = async function () {
             <input
               class="text-center p-2 bg-[#16181C] border border-gray-700 rounded-2xl"
               type="text"
-              placeholder="Search"
+              v-model="searchKey"
+              @keyup.enter="searchUser"
+              placeholder="input and press enter"
             />
           </div>
           <div class="text-left p-4 mt-8 bg-[#16181C] border border-gray-800 rounded-2xl">
