@@ -2,11 +2,23 @@
 import DefaultLayout from '@/layouts/default.vue'
 import { Back } from '@element-plus/icons-vue'
 
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
+import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
+import type { User } from '@/types/user'
 import Tweet from '@/components/Tweet.vue'
 
 const activeName = ref('first')
+const route = useRoute()
+const userName = route.params.user_name
+const userStore = useUserStore()
+const profileData = ref({} as User)
+
+onMounted(async () => {
+  // console.log(userName)
+  profileData.value = await userStore.getUserProfile(userName)
+})
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
@@ -22,7 +34,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
           <el-icon><Back /></el-icon>
         </div>
         <div class="w-11/12 flex flex-col">
-          <span class="font-bold text-xl">Tajul Islam</span>
+          <span class="font-bold text-xl">{{ profileData.email }}</span>
           <span class="text-xs text-gray-500">2 Posts</span>
         </div>
       </div>
@@ -58,8 +70,8 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 
           <!-- Profile content -->
           <div class="pt-8 pb-4 px-4 text-left">
-            <h1 class="text-2xl font-bold">deadpool orange</h1>
-            <p class="text-gray-400">@DeadpoolOrange</p>
+            <h1 class="text-2xl font-bold">{{ profileData.email }}</h1>
+            <p class="text-gray-400">@{{ profileData.user_name }}</p>
 
             <!-- stats -->
             <div class="mt-4">
@@ -78,15 +90,11 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
       <!--   tab pane with posts   -->
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane label="Posts" name="first">
-          <Tweet />
-          <Tweet />
-          <Tweet />
-          <Tweet />
-          <Tweet />
-          <Tweet />
-          <Tweet />
+          <div v-if="profileData?.tweets?.length > 0">
+            <Tweet v-for="t in profileData.tweets" :key="t.id" :tweet="t" />
+          </div>
         </el-tab-pane>
-        <el-tab-pane label="Replies" name="second">Replies</el-tab-pane>
+        <el-tab-pane label="Replies" name="second">No Data</el-tab-pane>
       </el-tabs>
     </main>
   </default-layout>

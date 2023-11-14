@@ -42,7 +42,10 @@ const logout = async function () {
                 <BellIcon />
                 <span class="ml-4 text-2xl">Notifications</span>
               </div>
-              <RouterLink class="my-4 flex justify-start items-center" :to="'/profile'">
+              <RouterLink
+                class="my-4 flex justify-start items-center"
+                :to="{ name: 'profile', params: { user_name: authStore.user?.user_name } }"
+              >
                 <ProfileIcon />
                 <span class="ml-4 text-2xl">Profile</span>
               </RouterLink>
