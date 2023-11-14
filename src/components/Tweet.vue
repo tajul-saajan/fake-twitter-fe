@@ -1,14 +1,25 @@
 <script lang="ts" setup>
-import { ChatDotRound, Histogram, Promotion, RefreshRight } from '@element-plus/icons-vue'
+import { Histogram, Promotion, RefreshRight } from '@element-plus/icons-vue'
 import type { PropType } from 'vue'
 import type { Tweet } from '@/types/tweet'
 import useDateHelper from '@/composables/useDateHelper'
+import { useTweetStore } from '@/stores/tweetStore'
+import { ElNotification } from 'element-plus'
+
 const props = defineProps({
   tweet: {
     type: Object as PropType<Tweet>,
     required: true
   }
 })
+const tweetStore = useTweetStore()
+
+const reactTweet = async function () {
+  const response = await tweetStore.reactTweet(props.tweet?.id)
+  if (response) {
+    ElNotification({ type: 'success', title: 'Success', message: 'reacted tweet successfully' })
+  }
+}
 
 const { formatTimeDiffForHumans } = useDateHelper()
 </script>
@@ -33,7 +44,7 @@ const { formatTimeDiffForHumans } = useDateHelper()
       <div class="py-1">{{ props.tweet.content }}</div>
       <div class="flex justify-around items-center">
         <div class="flex">
-          <span>
+          <span @click="reactTweet">
             <svg
               class="text-white"
               fill="white"
