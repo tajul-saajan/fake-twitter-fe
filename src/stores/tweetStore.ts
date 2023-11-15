@@ -21,6 +21,13 @@ export const useTweetStore = defineStore('tweetStore', {
         return response.data
       }
       return []
+    },
+    async createTweet(content: string) {
+      const { response, error } = await useRequests().post(`tweets/`, { content })
+      if (response) {
+        return response.data
+      }
+      return null
     }
   }
 })

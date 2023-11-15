@@ -4,18 +4,38 @@ import type { TabsPaneContext } from 'element-plus'
 import DefaultLayout from '@/layouts/default.vue'
 import Tweet from '@/components/Tweet.vue'
 import { useTweetStore } from '@/stores/tweetStore'
+import { ElNotification } from 'element-plus'
 
 const activeName = ref('first')
 const tweetStore = useTweetStore()
 const tweets = ref([] as any)
 const paginationData = ref({} as any)
+const content = ref('')
 
-onMounted(async () => {
+async function loadTweets() {
   const { data, ...pag } = await tweetStore.getTimelineData()
   console.log(tweets.value)
   tweets.value = data
   paginationData.value = pag
+}
+
+onMounted(async () => {
+  await loadTweets()
 })
+
+const createTweet = async function () {
+  if (content.value.length === 0) return
+  const response = await tweetStore.createTweet(content.value)
+  if (response) {
+    ElNotification({
+      type: 'success',
+      title: 'created',
+      message: 'tweet created succesfully'
+    })
+    content.value = ''
+    await loadTweets()
+  }
+}
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
@@ -40,20 +60,21 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
                 <input
                   class="w-full h-full min-h-[96px] border border-gray-800 rounded-2xl bg-[#16181C]"
                   type="textarea"
+                  v-model="content"
                 />
               </div>
               <div class="flex">
                 <div class="flex-grow"></div>
-                <button class="mt-2 px-4 py-1 bg-[#1DB9F0] border rounded-2xl border-gray-800">
+                <button
+                  class="mt-2 px-4 py-1 bg-[#1DB9F0] border rounded-2xl border-gray-800"
+                  @click="createTweet"
+                >
                   Post
                 </button>
               </div>
             </div>
           </div>
 
-          <!--  tweet data. @todo replace with real data  -->
-          <!--          <Tweet />-->
-          <!--          <Tweet />-->
           <div v-if="tweets.length > 0">
             <Tweet v-for="t in tweets" :key="t.id" :tweet="t" />
           </div>

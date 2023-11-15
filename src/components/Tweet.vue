@@ -30,7 +30,7 @@ const { formatTimeDiffForHumans } = useDateHelper()
       <div
         class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl"
       >
-        <span>X</span>
+        <span>{{ props.tweet.created_by.user_name?.[0].toUpperCase() ?? 'X' }}</span>
       </div>
     </div>
     <div class="w-10/12 flex flex-col">
