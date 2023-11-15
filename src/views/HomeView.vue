@@ -75,7 +75,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
             </div>
           </div>
 
-          <div v-if="tweets.length > 0">
+          <div v-if="tweets?.length > 0">
             <Tweet v-for="t in tweets" :key="t.id" :tweet="t" />
           </div>
         </el-tab-pane>
