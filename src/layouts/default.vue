@@ -99,7 +99,9 @@ const searchUser = async function () {
           <div class="bg-gray-900 rounded shadow-lg">
             <ul>
               <li>
-                <RouterLink :to="'/profile'" class="block px-4 py-2 hover:bg-gray-600 hover:rounded"
+                <RouterLink
+                  :to="{ name: 'profile', params: { user_name: authStore.user?.user_name } }"
+                  class="block px-4 py-2 hover:bg-gray-600 hover:rounded"
                   >Profile</RouterLink
                 >
               </li>

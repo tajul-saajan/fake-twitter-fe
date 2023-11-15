@@ -47,9 +47,9 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
     <template #content>
       <!--  top user info with back button-->
       <div class="flex items-center mb-2">
-        <div class="w-1/12">
+        <router-link :to="'/'" class="w-1/12">
           <el-icon><Back /></el-icon>
-        </div>
+        </router-link>
         <div class="w-11/12 flex flex-col">
           <span class="font-bold text-xl">{{ profileData.email }}</span>
           <span class="text-xs text-gray-500">2 Posts</span>
