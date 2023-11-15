@@ -5,6 +5,7 @@ import type { Tweet } from '@/types/tweet'
 import useDateHelper from '@/composables/useDateHelper'
 import { useTweetStore } from '@/stores/tweetStore'
 import { ElNotification } from 'element-plus'
+import TextAvatar from '@/components/icons/TextAvatar.vue'
 
 const props = defineProps({
   tweet: {
@@ -27,11 +28,7 @@ const { formatTimeDiffForHumans } = useDateHelper()
 <template>
   <div class="flex flex-row border rounded border-gray-700 p-2">
     <div class="w-2/12">
-      <div
-        class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl"
-      >
-        <span>{{ props.tweet.created_by.user_name?.[0].toUpperCase() ?? 'X' }}</span>
-      </div>
+      <TextAvatar :letter="props.tweet.created_by.user_name?.[0] ?? 'X'" />
     </div>
     <div class="w-10/12 flex flex-col">
       <div class="flex">

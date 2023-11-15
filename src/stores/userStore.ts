@@ -21,6 +21,34 @@ export const useUserStore = defineStore('userStore', {
         return response.data
       }
       return null
+    },
+    async getFollowers(userName: string) {
+      const { response, error } = await useRequests().get<User[] | null>(
+        `users/${userName}/followers`
+      )
+      if (response) {
+        return response.data
+      }
+      return null
+    },
+    async getFollowing(userName: string) {
+      const { response, error } = await useRequests().get<User[] | null>(
+        `users/${userName}/following`
+      )
+      if (response) {
+        return response.data
+      }
+      return null
+    },
+    async follow(userName: string) {
+      const { response, error } = await useRequests().post<User[] | null>(
+        `users/${userName}/follow`,
+        {}
+      )
+      if (response) {
+        return response.data
+      }
+      return null
     }
   }
 })

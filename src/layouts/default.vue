@@ -116,15 +116,15 @@ const searchUser = async function () {
     <!--  left aside menu end -->
 
     <!--  main content start -->
-    <div class="col-span-8 overflow-auto hide-scrollbar">
+    <div class="col-span-7 overflow-auto hide-scrollbar">
       <div class="w-3/4 mx-auto p-4 border-1 border-x-gray-200">
-        <slot></slot>
+        <slot name="content"></slot>
       </div>
     </div>
     <!--  main content end -->
 
     <!--  right bar start -->
-    <div class="col-span-2">
+    <div class="col-span-3">
       <div class="mr-auto p-4 h-screen w-full">
         <div class="flex flex-col">
           <div class="flex items-center">
@@ -136,43 +136,8 @@ const searchUser = async function () {
               placeholder="input and press enter"
             />
           </div>
-          <div class="text-left p-4 mt-8 bg-[#16181C] border border-gray-800 rounded-2xl">
-            <div class="text-xl font-bold">Subscribe to Premium</div>
-            <p class="my-2">
-              Subscribe to unlock new features and if eligible, receive a share of ads revenue.
-            </p>
-          </div>
-          <div class="text-left p-4 mt-8 bg-[#16181C] border border-gray-800 rounded-2xl">
-            <div class="text-xl font-bold">Trends For You</div>
-            <div>
-              <div class="my-2">
-                <div class="flex justify-between items-center font-light text-gray-400">
-                  <div>Sports Trending</div>
-                  <div>...</div>
-                </div>
-                <div class="font-bold text-lg">#CWC</div>
-                <div class="font-light text-gray-400">150k Posts</div>
-              </div>
 
-              <div class="my-2">
-                <div class="flex justify-between items-center font-light text-gray-400">
-                  <div>Politics Trending</div>
-                  <div>...</div>
-                </div>
-                <div class="font-bold text-lg">Genocide</div>
-                <div class="font-light text-gray-400">910k Posts</div>
-              </div>
-
-              <div class="my-2">
-                <div class="flex justify-between items-center font-light text-gray-400">
-                  <div>Technology Trending</div>
-                  <div>...</div>
-                </div>
-                <div class="font-bold text-lg">#iPhone</div>
-                <div class="font-light text-gray-400">500k Posts</div>
-              </div>
-            </div>
-          </div>
+          <slot name="right"></slot>
         </div>
       </div>
     </div>
